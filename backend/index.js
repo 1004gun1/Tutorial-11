@@ -13,7 +13,6 @@ const app = express();
 // TODO: complete me (CORS)
 app.use(cors({
     origin: FRONTEND_URL,
-    credentials: true,
 }));
 app.use(express.json());
 app.use('', routes);
