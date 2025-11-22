@@ -92,7 +92,9 @@
             
             return token;
         } catch (err) {
-            return err.message;
+            return {
+                "message" : err.message
+             };
         }
     };
 
@@ -125,7 +127,9 @@
                     "message": "User registered successfully"
                 }
         } catch (err) {
-            return err.message;
+            return {
+                "message" : err.message
+             };
         }
         // TODO: complete me
     };
