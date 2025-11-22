@@ -4,7 +4,7 @@
     const AuthContext = createContext(null);
 
     // TODO: get the BACKEND_URL.
-    const VITE_BACKEND_URL = import.meta.env.VITE_BACKEND_URL || "http://localhost:3000";
+    const VITE_BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
 
     /*
     * This provider should export a `user` context state that is 
