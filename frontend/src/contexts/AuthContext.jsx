@@ -78,7 +78,13 @@
                 body: JSON.stringify({ username, password })
             }) ;
 
+
             const token = await response.json();
+
+            if (!response.ok) {
+                return { message: token.message };
+            }
+            
             localStorage.setItem("token", token.token);
 
             const loggedInUser = await fetch(`${VITE_BACKEND_URL}/user/me`, {
@@ -88,7 +94,7 @@
     
             setUser(data.user); 
 
-            navigate("/login");
+            navigate("/profile");
             
             return token;
         } catch (err) {
