@@ -35,7 +35,7 @@
                 });
 
                 const data = await response.json();
-                setUser(data.user);
+                setUser(data.user || null);
 
             } catch (err) {
                 setUser(null);
@@ -79,6 +79,8 @@
             }) ;
 
             const token = await response.json();
+            if (!response.ok) return token.message || "Login failed";
+
             localStorage.setItem("token", token.token);
 
             const loggedInUser = await fetch(`${VITE_BACKEND_URL}/user/me`, {
@@ -86,15 +88,13 @@
             });
             const data = await loggedInUser.json();
     
-            setUser(data.user); 
+            setUser(data.user || null); 
 
             navigate("/profile");
             
-            return token;
+            return null;
         } catch (err) {
-            return {
-                "message" : err.message
-             };
+            return err.message;
         }
     };
 
@@ -123,13 +123,9 @@
                 navigate("/success");
                // const data = await response.json();
                 
-                return {
-                    "message": "User registered successfully"
-                }
+                return null;
         } catch (err) {
-            return {
-                "message" : err.message
-             };
+            return err.message;
         }
         // TODO: complete me
     };
