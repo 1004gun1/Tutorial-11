@@ -85,7 +85,7 @@
 
             if (!response.ok) {
                 const errorData = await response.json();
-                return { message: errorData.message };
+                return errorData.message;
             }
 
             const tokenData = await response.json();
@@ -97,7 +97,7 @@
             
             if (!loggedInUser.ok) {
                 const errorData = await loggedInUser.json();
-                return { message: errorData.message };
+                return errorData.message;
             }
             
             const data = await loggedInUser.json();
@@ -105,9 +105,7 @@
 
             navigate("/profile");
         } catch (err) {
-            return {
-                "message" : err.message
-             };
+            return err.message;
         }
     };
 
@@ -130,14 +128,12 @@
 
                 if (!response.ok) {
                     const errorData = await response.json();
-                    return { message: errorData.message };
+                    return errorData.message;
                 }
 
                 navigate("/success");
         } catch (err) {
-            return {
-                "message" : err.message
-             };
+            return err.message;
         }
         // TODO: complete me
     };
