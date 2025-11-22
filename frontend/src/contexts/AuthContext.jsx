@@ -88,7 +88,7 @@
     
             setUser(data.user); 
 
-            navigate("/profile");
+            navigate("/login");
             
             return token;
         } catch (err) {
