@@ -34,6 +34,11 @@
                     }
                 });
 
+                if (!response.ok) {
+                    setUser(null);
+                    return;
+                }
+
                 const data = await response.json();
                 setUser(data.user);
 
@@ -76,27 +81,29 @@
                     "Content-Type": "application/json"
                 },
                 body: JSON.stringify({ username, password })
-            }) ;
-
-
-            const token = await response.json();
+            });
 
             if (!response.ok) {
-                return { message: token.message };
+                const errorData = await response.json();
+                return { message: errorData.message };
             }
-            
-            localStorage.setItem("token", token.token);
+
+            const tokenData = await response.json();
+            localStorage.setItem("token", tokenData.token);
 
             const loggedInUser = await fetch(`${VITE_BACKEND_URL}/user/me`, {
-                headers: { "Authorization": `Bearer ${token.token}` }
+                headers: { "Authorization": `Bearer ${tokenData.token}` }
             });
+            
+            if (!loggedInUser.ok) {
+                const errorData = await loggedInUser.json();
+                return { message: errorData.message };
+            }
+            
             const data = await loggedInUser.json();
-    
             setUser(data.user); 
 
             navigate("/profile");
-            
-            return token;
         } catch (err) {
             return {
                 "message" : err.message
@@ -121,17 +128,12 @@
                     body: JSON.stringify( userData )
                 });
 
-                if (response.status === 409) {
-                    const data = await response.json();
-                    return { message: data.message };
+                if (!response.ok) {
+                    const errorData = await response.json();
+                    return { message: errorData.message };
                 }
 
                 navigate("/success");
-               // const data = await response.json();
-                
-                return {
-                    "message": "User registered successfully"
-                }
         } catch (err) {
             return {
                 "message" : err.message
